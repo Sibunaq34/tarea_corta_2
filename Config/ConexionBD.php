@@ -1,6 +1,6 @@
 <?php
 
-class Database
+class ConexionBD
 {
     private $host = "localhost";
     private $db = "nombre_bd";
