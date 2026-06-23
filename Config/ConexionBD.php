@@ -5,7 +5,7 @@ class ConexionBD
     private $host = "localhost";
     private $db = "nombre_bd";
     private $user = "root";
-    private $password = "";
+    private $password = "Sibu123.";
 
     public function getConnection()
     {
