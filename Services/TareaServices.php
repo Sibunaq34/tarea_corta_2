@@ -26,6 +26,77 @@ class TareaService
 
 
 
+    public function obtenerPorId($id)
+    {
+
+        return $this->repository->obtenerPorId($id);
+
+    }
+
+
+
+    public function cambiarEstado($idTarea, $nuevoEstado)
+    {
+
+        $tarea = $this->obtenerPorId($idTarea);
+
+
+        if(
+            !$tarea
+        )
+        {
+            throw new Exception(
+                "No se encontro la tarea indicada"
+            );
+        }
+
+
+        $estadoActual = $tarea["estado"];
+
+
+        $transicionesPermitidas = [
+
+            "Pendiente" => [
+                "En progreso"
+            ],
+
+            "En progreso" => [
+                "Pendiente",
+                "Bloqueada",
+                "Finalizada"
+            ],
+
+            "Bloqueada" => [
+                "En progreso"
+            ],
+
+            "Finalizada" => [
+                "En progreso"
+            ]
+
+        ];
+
+
+        if(
+            !isset($transicionesPermitidas[$estadoActual]) ||
+            !in_array($nuevoEstado, $transicionesPermitidas[$estadoActual])
+        )
+        {
+            throw new Exception(
+                "No se permite cambiar una tarea de " . $estadoActual . " a " . $nuevoEstado
+            );
+        }
+
+
+        $this->repository->cambiarEstado(
+            $idTarea,
+            $nuevoEstado
+        );
+
+    }
+
+
+
 
     public function crear(Tarea $tarea)
     {

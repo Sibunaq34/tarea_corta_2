@@ -45,9 +45,36 @@ class TareaRepository
         ]);
 
 
-        return $stmt->fetch(
+        $tarea = $stmt->fetch(
             PDO::FETCH_ASSOC
         );
+
+
+        $stmt->closeCursor();
+
+
+        return $tarea;
+
+    }
+
+
+
+    public function cambiarEstado($idTarea, $nuevoEstado)
+    {
+
+        $sql = "CALL CambiarEstadoTarea(?, ?)";
+
+
+        $stmt = $this->conexion->prepare($sql);
+
+
+        $stmt->execute([
+
+            $idTarea,
+
+            $nuevoEstado
+
+        ]);
 
     }
 
