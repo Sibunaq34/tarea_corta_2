@@ -1,87 +1,43 @@
-<?php
+<?php require __DIR__ . "/../layout/header.php"; ?>
 
-include "conexion.php";
+<h1>Crear tarea</h1>
 
-
-$responsables = $conexion->query(
-"CALL ObtenerResponsables()"
-);
-
-
-?>
-
-
-<h1>Nueva tarea</h1>
+<form action="/tarea_corta_2/acciones/crear.php" method="POST">
+    
+    <label>Detalle</label>
+    <br>
+    <textarea name="detalle" required ></textarea>
+    <br><br>
+    <label>Prioridad</label>
 
 
-<form action="guardar.php" method="POST">
+    <select name="prioridad">
+        <option value="Alta">Alta</option>
+        <option value="Media">Media</option>
+        <option value="Baja">Baja</option>
+    </select>
 
 
-Detalle:
+    <br><br>
+    <label>Fecha límite (opcional)</label>
+    <input type="date" name="fecha">
+    <br><br>
 
-<br>
+    <label>Responsable</label>
+    <select name="responsable">
+        <option value="0">Sin responsable asignado</option>
+        <?php require_once __DIR__ . "/../../Repository/TareaRepository.php"; $repo = new TareaRepository(); $responsables = $repo->obtenerResponsables(); foreach($responsables as $r): ?>
+            <option value="<?=$r['id_responsable']?>">
+                <?=$r['nombre_completo']?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-<textarea name="detalle"></textarea>
+    <br><br>
 
-
-<br>
-
-
-Prioridad:
-
-<select name="prioridad">
-
-<option>Alta</option>
-<option>Media</option>
-<option>Baja</option>
-
-</select>
-
-
-<br>
-
-
-Fecha límite:
-
-<input type="date" name="fecha">
-
-
-<br>
-
-
-Responsable:
-
-
-<select name="responsable">
-
-
-<option value="0">
-Sin responsable asignado
-</option>
-
-
-<?php while($r=$responsables->fetch_assoc()): ?>
-
-
-<option value="<?=$r['id_responsable']?>">
-
-<?=$r['nombre_completo']?>
-
-</option>
-
-
-<?php endwhile; ?>
-
-
-</select>
-
-
-<br>
-
-
-<button>
-Guardar
-</button>
-
+    <button>Crear tarea</button>
 
 </form>
+
+
+<?php require __DIR__ . "/../layout/footer.php"; ?>

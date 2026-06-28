@@ -5,11 +5,6 @@
 <h1>Editar tarea</h1>
 
 
-<?php if(isset($_GET["mensaje"])): ?>
-    <p style="color:green">La tarea fue editada correctamente</p>
-<?php endif; ?>
-
-
 <form action="/tarea_corta_2/acciones/actualizar.php" method="POST">
 
 
@@ -36,9 +31,15 @@
     
 
     <br><br>
+
     <label>Responsable</label>
     <select name="responsable">
-        <option value="0"> Sin responsable asignado </option>
+        <option value="0">Sin responsable asignado</option>
+        <?php require_once __DIR__ . "/../../Repository/TareaRepository.php"; $repo = new TareaRepository(); $responsables = $repo->obtenerResponsables(); foreach($responsables as $r): ?>
+            <option value="<?=$r['id_responsable']?>">
+                <?=$r['nombre_completo']?>
+            </option>
+        <?php endforeach; ?>
     </select>
     
     
@@ -46,5 +47,8 @@
     <button>Guardar cambios</button>
 
 </form>
+    <a href="/tarea_corta_2/app/Views/tareas/index.php">
+        <button>Volver</button>
+    </a>
 
 <?php require __DIR__ . "/../layout/footer.php"; ?>

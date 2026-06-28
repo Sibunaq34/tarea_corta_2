@@ -5,11 +5,13 @@ $service = new TareaService();
 try
 {
     $service->cambiarEstado( $_POST["id"], $_POST["estado"]);
-    header("Location:/tarea_corta_2/index.php?mensaje=estado");
+    header("Location:/tarea_corta_2/app/Views/tareas/index.php?mensaje=estado");
+    exit;
 }
 catch(Exception $e){
     header(
-        "Location:/tarea_corta_2/index.php?mensaje=errorEstado");
+        "Location:/tarea_corta_2/app/Views/tareas/index.php?mensaje=errorEstado");
+    exit;
 }
 
 

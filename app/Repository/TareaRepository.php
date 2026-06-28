@@ -16,16 +16,13 @@ class TareaRepository{
 
 
     public function listar(){
-
-
         $resultado = $this->db->query("CALL ListarTareas()");
         $tareas=[];
         while($fila=$resultado->fetch_assoc()){
             $tareas[]=$fila;
 
         }
-
-        return $tareas;
+          return $tareas;
     }
 
 
@@ -70,6 +67,27 @@ class TareaRepository{
         $stmt = $this->db->prepare("CALL EditarTarea(?,?,?,?,?)");
         $stmt->bind_param("isssi", $id, $detalle, $prioridad, $fecha, $responsable);
 
+        return $stmt->execute();
+
+    }
+
+    public function obtenerResponsables(){
+        $resultado = $this->db->query( "CALL ObtenerResponsables()");
+        $responsables=[];
+
+        while($fila=$resultado->fetch_assoc())
+            {
+                $responsables[]=$fila;
+            }
+        
+        return $responsables;
+    }
+
+    public function reactivar($id)
+    {
+        $stmt = $this->db->prepare("CALL ReactivarTarea(?)");
+        $stmt->bind_param("i",$id);
+        
         return $stmt->execute();
 
     }

@@ -10,7 +10,7 @@ $service->editar($_POST);
 
 
 header(
-"Location:/tarea_corta_2/app/Views/tareas/editar.php?id=".$_POST["id"]."&mensaje=editado"
+"Location:/tarea_corta_2/app/Views/tareas/index.php?id=".$_POST["id"]."&mensaje=editado"
 );
 
 ?>

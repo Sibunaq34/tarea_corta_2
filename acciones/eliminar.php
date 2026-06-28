@@ -5,16 +5,13 @@ $id = intval($_GET["id"]);
 
 
 if($service->eliminar($id)){
-
-    header(
-    "Location: /tarea_corta_2/index.php?mensaje=eliminada"
-    );
+    header("Location:/tarea_corta_2/app/Views/tareas/index.php?mensaje=eliminada");
+    exit;
 
 }else{
 
-    header(
-    "Location: /tarea_corta_2/index.php?mensaje=error"
-    );
+    header("Location:/tarea_corta_2/app/Views/tareas/index.php?mensaje=error");
+    exit;
 
 }
 

@@ -9,9 +9,7 @@ class TareaService{
     public function __construct(){
 
         $this->repo = new TareaRepository();
-
     }
-
 
 
     public function obtenerTareas(){
@@ -19,7 +17,6 @@ class TareaService{
         return $this->repo->listar();
 
     }
-
 
 
     public function crear($datos){
@@ -32,21 +29,10 @@ class TareaService{
 
         }
 
-
-
-        return $this->repo->crear(
-
-            $datos["detalle"],
-            $datos["prioridad"],
-            $datos["fecha"],
-            $datos["responsable"]
-
-        );
-
+        return $this->repo->crear($datos["detalle"],$datos["prioridad"],$datos["fecha"],
+        $datos["responsable"]);
 
     }
-
-
 
 
     public function eliminar($id){
@@ -56,15 +42,9 @@ class TareaService{
     }
 
 
-
-    public function cambiarEstado(
-        $id,
-        $estado
-    ){
-
-        return $this->repo
-        ->cambiarEstado($id,$estado);
-
+    public function cambiarEstado($id, $estado)
+    {
+        return $this->repo->cambiarEstado($id,$estado);
     }
 
 
@@ -74,31 +54,25 @@ class TareaService{
 
     }
     
+
     public function editar($datos){
-
-
-    if(empty($datos["detalle"])){
-
-        die("El detalle es obligatorio");
-
+        if(empty($datos["detalle"]))
+            {
+                die("El detalle es obligatorio");
+            }
+            
+            return $this->repo->editar(
+            $datos["id"],
+            $datos["detalle"],
+            $datos["prioridad"],
+            $datos["fecha"],
+            $datos["responsable"]);
     }
-
-
-
-    return $this->repo->editar(
-
-        $datos["id"],
-        $datos["detalle"],
-        $datos["prioridad"],
-        $datos["fecha"],
-        $datos["responsable"]
-
-    );
-
-
-}
-
-
+    
+    public function reactivar($id)
+    {
+        return $this->repo->reactivar($id);
+    }
 }
 
 ?>
