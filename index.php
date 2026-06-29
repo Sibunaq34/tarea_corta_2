@@ -19,7 +19,9 @@ if($pagina == "tareas"){
     $service = new TareaService($repository);
     $tareas = $service->obtenerTareas();
     include "app/Views/tareas/index.php";
-        }else{
+}elseif($pagina == "grupos"){
+    include "app/Views/grupos/index.php";
+}else{
     include "app/Views/layout/header.php";
     echo "Página de inicio";
 
