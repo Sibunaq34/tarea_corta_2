@@ -1,0 +1,809 @@
+/* ===========================
+   ESTILOS GENERALES
+   =========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f5f5f5;
+    color:#333;
+    line-height:1.6;
+
+}
+
+
+/* ===========================
+   NAVEGACION
+   =========================== */
+
+
+nav {
+
+    background:#2c3e50;
+    padding:15px 40px;
+    margin-bottom:30px;
+    display:flex;
+    gap:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+
+}
+
+
+nav a {
+
+    color:white;
+    text-decoration:none;
+    padding:8px 15px;
+    border-radius:4px;
+
+}
+
+
+nav a:hover {
+
+    background:#34495e;
+
+}
+
+
+/* ===========================
+   CONTENEDOR
+   =========================== */
+
+
+.contenedor {
+
+    width:90%;
+    max-width:1400px;
+    margin:auto;
+    margin-bottom:40px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:8px;
+
+    box-shadow:
+    0 2px 10px rgba(0,0,0,.1);
+
+}
+
+
+
+/* ===========================
+   TITULOS
+   =========================== */
+
+
+h1,
+h2,
+h3 {
+
+    color:#2c3e50;
+
+    margin-bottom:20px;
+
+    border-bottom:2px solid #3498db;
+
+    padding-bottom:10px;
+
+}
+
+
+
+/* ===========================
+   FORMULARIOS
+   =========================== */
+
+
+form {
+
+    margin-bottom:20px;
+
+}
+
+
+label {
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+
+input,
+select,
+textarea {
+
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #bdc3c7;
+
+    border-radius:5px;
+
+    margin-bottom:15px;
+
+}
+
+
+textarea {
+
+    min-height:120px;
+
+    resize:vertical;
+
+}
+
+
+
+/* ===========================
+   BOTONES
+   =========================== */
+
+
+button,
+.btn {
+
+
+    background:#3498db;
+
+    color:white;
+
+    padding:12px 24px;
+
+    border:none;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+
+button:hover,
+.btn:hover {
+
+    background:#2980b9;
+
+}
+
+
+
+/* Botones colores */
+
+
+.btn-success {
+
+    background:#27ae60;
+
+}
+
+
+.btn-danger {
+
+    background:#e74c3c;
+
+}
+
+
+.btn-warning {
+
+    background:#f39c12;
+
+}
+
+
+.btn-secondary {
+
+    background:#95a5a6;
+
+}
+
+
+
+/* ===========================
+   TABLAS
+   =========================== */
+
+
+table {
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:30px;
+
+}
+
+
+th {
+
+    background:#2c3e50;
+
+    color:white;
+
+    padding:15px;
+
+}
+
+
+td {
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+}
+
+
+tbody tr:hover {
+
+    background:#ecf0f1;
+
+}
+
+
+
+/* ===========================
+   LINKS
+   =========================== */
+
+
+a {
+
+    color:#3498db;
+
+}
+
+
+a:hover {
+
+    text-decoration:underline;
+
+}
+
+
+
+/* ===========================
+   ALERTAS
+   =========================== */
+
+
+.alert {
+
+    padding:15px;
+
+    border-radius:5px;
+
+    margin-bottom:20px;
+
+}
+
+
+.alert-success {
+
+    background:#d4edda;
+
+    color:#155724;
+
+}
+
+
+.alert-danger {
+
+    background:#f8d7da;
+
+    color:#721c24;
+
+}
+
+
+
+/* ===========================
+   BOTONES TABLA
+   =========================== */
+
+
+.actions {
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+
+
+/* ===========================
+   FOOTER
+   =========================== */
+
+
+footer {
+
+    background:#2c3e50;
+
+    color:white;
+
+    text-align:center;
+
+    padding:20px;
+
+}
+
+
+
+/* =====================================================
+   KANBAN
+   ===================================================== */
+
+
+.kanban-tablero {
+
+    display:flex;
+
+    gap:20px;
+
+    width:100%;
+
+    overflow-x:auto;
+
+    padding:20px 0;
+
+}
+
+
+
+.kanban-columna {
+
+
+    background:#ecf0f1;
+
+    border-radius:10px;
+
+    flex:1;
+
+    min-width:280px;
+
+
+
+}
+
+
+
+/* Cabecera */
+
+
+.kanban-columna-header {
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+.kanban-columna-titulo {
+
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+
+
+/* contador */
+
+
+.kanban-columna-contador {
+
+
+    background:#3498db;
+
+    color:white;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+}
+
+
+
+/* Estados */
+
+
+.kanban-columna--pendiente {
+
+    border-top:5px solid #3498db;
+
+}
+
+
+.kanban-columna--en-progreso {
+
+    border-top:5px solid #f39c12;
+
+}
+
+
+.kanban-columna--bloqueada {
+
+    border-top:5px solid #e74c3c;
+
+}
+
+
+.kanban-columna--finalizada {
+
+    border-top:5px solid #27ae60;
+
+}
+
+
+
+/* Tarjetas */
+
+
+.kanban-tarjeta {
+
+
+    background:white;
+
+    border-radius:8px;
+
+    margin-bottom:15px;
+
+    padding:15px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.15);
+
+    transition:.2s;
+
+
+}
+
+
+
+.kanban-tarjeta:hover {
+
+    transform:translateY(-3px);
+
+}
+
+
+
+.tarjeta-detalle {
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.tachado {
+
+    text-decoration:line-through;
+
+    opacity:.6;
+
+}
+
+
+
+/* Prioridad */
+
+
+.kanban-tarjeta--alta {
+
+    border-left:5px solid #e74c3c;
+
+}
+
+
+.kanban-tarjeta--media {
+
+    border-left:5px solid #f39c12;
+
+}
+
+
+.kanban-tarjeta--baja {
+
+    border-left:5px solid #27ae60;
+
+}
+
+
+
+/* Metadata */
+
+
+.tarjeta-meta {
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    font-size:13px;
+
+}
+
+
+
+/* Badges */
+
+
+.badge {
+
+
+    width:max-content;
+
+    padding:5px 10px;
+
+    border-radius:15px;
+
+    color:white;
+
+}
+
+
+.badge-alta {
+
+    background:#e74c3c;
+
+}
+
+
+.badge-media {
+
+    background:#f39c12;
+
+}
+
+
+.badge-baja {
+
+    background:#27ae60;
+
+}
+
+
+
+/* Estados botones */
+
+
+.tarjeta-acciones {
+
+    margin-top:15px;
+
+}
+
+
+
+.btn-mover {
+
+
+    width:100%;
+
+    padding:10px;
+
+    color:white;
+
+    border:none;
+
+    border-radius:5px;
+
+}
+
+
+
+.btn-estado--pendiente {
+
+    background:#3498db;
+
+}
+
+
+.btn-estado--en-progreso {
+
+    background:#f39c12;
+
+}
+
+
+.btn-estado--bloqueada {
+
+    background:#e74c3c;
+
+}
+
+
+.btn-estado--finalizada {
+
+    background:#27ae60;
+
+}
+
+
+
+/* Sin tareas */
+
+
+.kanban-vacio {
+
+
+    text-align:center;
+
+    padding:30px;
+
+    color:#7f8c8d;
+
+}
+
+
+
+/* ===========================
+   FILTROS
+   =========================== */
+
+
+.formulario-filtros {
+
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    background:#f8f9fa;
+
+    padding:20px;
+
+    border-radius:8px;
+
+}
+
+
+
+.filtros-grupo {
+
+    flex:1;
+
+    min-width:200px;
+
+}
+
+
+
+/* ===========================
+   OTROS
+   =========================== */
+
+
+.fecha-vencida {
+
+
+    color:#e74c3c;
+
+    font-weight:bold;
+
+}
+
+
+
+.sin-responsable {
+
+
+    color:#7f8c8d;
+
+    font-style:italic;
+
+}
+
+
+
+.notificacion {
+
+
+    padding:12px;
+
+    border-radius:5px;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.oculto {
+
+    display:none;
+
+}
+
+
+
+.notificacion--exito {
+
+    background:#d4edda;
+
+    color:#155724;
+
+}
+
+
+
+.notificacion--error {
+
+    background:#f8d7da;
+
+    color:#721c24;
+
+}
+
+
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+
+@media(max-width:900px){
+
+
+    .kanban-tablero {
+
+        flex-direction:column;
+
+    }
+
+
+    .contenedor {
+
+        width:95%;
+
+    }
+
+
+    nav {
+
+        flex-direction:column;
+
+    }
+
+}
