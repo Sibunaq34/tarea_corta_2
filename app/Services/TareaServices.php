@@ -42,10 +42,32 @@ class TareaService{
     }
 
 
-    public function cambiarEstado($id, $estado)
-    {
-        return $this->repo->cambiarEstado($id,$estado);
+public function cambiarEstado($idTarea, $nuevoEstado)
+{
+    $tarea = $this->repo->obtener($idTarea);
+
+    if (!$tarea) {
+        throw new Exception("La tarea no existe");
     }
+
+    $estadoActual = $tarea["estado"];
+
+    $transicionesPermitidas = [
+        "Pendiente" => ["En progreso"],
+        "En progreso" => ["Pendiente", "Bloqueada", "Finalizada"],
+        "Bloqueada" => ["En progreso"],
+        "Finalizada" => ["En progreso"]
+    ];
+
+    if (
+        !isset($transicionesPermitidas[$estadoActual]) ||
+        !in_array($nuevoEstado, $transicionesPermitidas[$estadoActual])
+    ) {
+        throw new Exception("Transición de estado no permitida");
+    }
+
+    return $this->repo->cambiarEstado($idTarea, $nuevoEstado);
+}
 
 
     public function obtener($id){
