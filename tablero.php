@@ -225,20 +225,25 @@ $hoy = date('Y-m-d');
                         <?php if (!empty($botones)): ?>
                         <div class="tarjeta-acciones">
                             <?php foreach ($botones as $nuevo_estado): ?>
+
                             <?php
-                                $clase_btn = 'btn-estado--' . strtolower(str_replace(' ', '-', $nuevo_estado));
-                                $label     = ($t['estado'] === 'Finalizada')
-                                             ? 'Reactivar'
-                                             : '→ ' . $nuevo_estado;
+                            $clase_btn = 'btn-estado--' . strtolower(str_replace(' ', '-', $nuevo_estado));
+
+                            $label = ($t['estado'] === 'Finalizada')
+                                ? 'Reactivar'
+                                : '→ ' . $nuevo_estado;
                             ?>
-                            <button type="button"
-                                    class="btn-mover <?= $clase_btn ?>"
-                                    data-tarea-id="<?= (int)$t['id_tarea'] ?>"
-                                    data-nuevo-estado="<?= htmlspecialchars($nuevo_estado) ?>">
+
+                            <button 
+                                type="button"
+                                class="btn-mover <?= $clase_btn ?>"
+                                data-tarea-id="<?= (int)$t['id_tarea'] ?>"
+                                data-nuevo-estado="<?= htmlspecialchars($nuevo_estado) ?>">
 
                                 <?= htmlspecialchars($label) ?>
 
                             </button>
+
                             <?php endforeach; ?>
                         </div>
                         <?php endif; ?>
@@ -280,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch('ajax/cambiar_estado.php', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body:    'tarea_id='     + encodeURIComponent(tareaId)
+                body:    'id_tarea='     + encodeURIComponent(tareaId)
                        + '&nuevo_estado=' + encodeURIComponent(nuevoEstado)
             })
             .then(function (res) { return res.json(); })

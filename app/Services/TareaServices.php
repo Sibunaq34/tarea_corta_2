@@ -70,26 +70,52 @@ class TareaService{
             $datos["responsable"]);
     }
     
-    
+
     public function reactivar($id)
     {
         return $this->repo->reactivar($id);
     }
-    public function cambiarEstadoAjax($id, $estado)
+
+
+    public function cambiarEstadoAjax($id_tarea, $nuevo_estado)
     {
 
-    $estados = ["Pendiente", "En progreso", "Bloqueada", "Finalizada"];
+        $conexion = ConexionBD::conectar();
 
-    if(!in_array($estado, $estados))
-    {
 
-        return -1;
+        $stmt = $conexion->prepare(
+            "CALL CambiarEstadoTarea(?,?)"
+        );
 
-    }
 
-    return $this->repo->cambiarEstadoAjax($id, $estado);
+        $stmt->bind_param(
+            "is",
+            $id_tarea,
+            $nuevo_estado
+        );
 
-    }   
+
+        try {
+
+            $stmt->execute();
+
+            return 0;
+
+
+        } catch(Exception $e){
+
+
+            if(str_contains($e->getMessage(),"Transición"))
+            {
+                return 1;
+            }
+
+
+            return -1;
+
+        }
+
+    }  
 }
 
 ?>

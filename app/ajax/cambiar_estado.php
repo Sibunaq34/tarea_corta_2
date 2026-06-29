@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 
-$tarea_id = (int)($_POST["tarea_id"] ?? 0);
+$id_tarea = (int)($_POST["tarea_id"] ?? 0);
 
 $nuevo_estado = trim(
     $_POST["nuevo_estado"] ?? ""
@@ -41,8 +41,10 @@ try{
 
 }catch(Exception $e){
 
-    echo json_encode(["ok"=>false, "codigo"=>-1, "mensaje"=>$e->getMessage()
+    echo json_encode(["ok"=>false, "codigo"=>-1,"mensaje"=>$e->getMessage()
+
     ]);
+
 
 }
 
