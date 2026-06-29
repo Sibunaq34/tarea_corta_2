@@ -11,6 +11,7 @@
         <nav>
             <a href="<?= $base_url ?>index.php">Inicio</a>
             <a href="<?= $base_url ?>index.php?pagina=tareas">Tareas</a>
+            <a href="<?= $base_url ?>index.php?pagina=grupos">Grupos</a>
             <a href="<?= $base_url ?>tablero.php">Tablero de Tareas</a>
         </nav>
 <div class="container">
