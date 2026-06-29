@@ -9,6 +9,8 @@ $filtro_prioridad    = trim($_GET['prioridad']     ?? '');
 $filtro_responsable  = (int)($_GET['responsable_id'] ?? 0);
 $filtro_fecha_limite = trim($_GET['fecha_limite']  ?? '');
 
+$codigo_estado = isset($_GET['error']) ? (int)$_GET['error'] : null;
+
 // Convertir a NULL si vacío / cero (el SP acepta NULL como "sin filtro")
 $p_estado       = $filtro_estado       ?: null;
 $p_prioridad    = $filtro_prioridad    ?: null;
@@ -38,6 +40,17 @@ catch(Exception $e){
 
 }
 
+// ── Paso 3: Obtener responsables para el filtro ───────────────
+$responsables = [];
+try {
+    $cn = ConexionBD::conectar();
+    $r  = $cn->query('CALL ObtenerResponsables()');
+    $responsables = $r->fetch_all(MYSQLI_ASSOC);
+    $r->close();
+} catch (Exception $e) {
+    $responsables = [];
+}
+
 // ── Paso 4: Agrupar tareas por estado ─────────────────────────
 $columnas = [
     'Pendiente'   => [],
@@ -65,6 +78,7 @@ $hoy = date('Y-m-d');
 
     
 <?php require __DIR__ . "/app/Views/layout/header.php"; ?>
+<link rel="stylesheet" href="/Tarea_Corta2/tarea_corta_2/assets/css/style.css">
 
 
 
@@ -108,8 +122,8 @@ $hoy = date('Y-m-d');
             <select name="responsable_id" id="responsable_id">
                 <option value="">Todos</option>
                 <?php foreach ($responsables as $resp): ?>
-                <option value="<?= (int)$resp['id'] ?>"
-                    <?= $filtro_responsable === (int)$resp['id'] ? 'selected' : '' ?>>
+                <option value="<?= (int)$resp['id_responsable'] ?>"
+                    <?= $filtro_responsable === (int)$resp['id_responsable'] ? 'selected' : '' ?>>
                     <?= htmlspecialchars($resp['nombre_completo'] ?? '') ?>
                 </option>
                 <?php endforeach; ?>
@@ -134,8 +148,17 @@ $hoy = date('Y-m-d');
     <div class="alerta alerta-error"><?= htmlspecialchars($error_tareas) ?></div>
     <?php endif; ?>
 
-    <!-- Notificación AJAX -->
-    <div id="notificacion" class="notificacion oculto" aria-live="polite"></div>
+    <!-- Notificación de cambio de estado -->
+    <?php if ($codigo_estado !== null): ?>
+    <div class="alerta alerta-<?= $codigo_estado === 0 ? 'exito' : 'error' ?>">
+        <?= match($codigo_estado) {
+            0       => 'Estado actualizado correctamente',
+            1       => 'Transición de estado no permitida',
+            2       => 'Tarea no encontrada',
+            default => 'Error al cambiar el estado',
+        } ?>
+    </div>
+    <?php endif; ?>
 
     <!-- ── Tablero Kanban (Paso 7 → 8) ── -->
     <div class="kanban-tablero">
@@ -234,15 +257,13 @@ $hoy = date('Y-m-d');
                                 : '→ ' . $nuevo_estado;
                             ?>
 
-                            <button 
-                                type="button"
-                                class="btn-mover <?= $clase_btn ?>"
-                                data-tarea-id="<?= (int)$t['id_tarea'] ?>"
-                                data-nuevo-estado="<?= htmlspecialchars($nuevo_estado) ?>">
-
-                                <?= htmlspecialchars($label) ?>
-
-                            </button>
+                            <form method="POST" action="ajax/cambiar_estado.php">
+                                <input type="hidden" name="tarea_id"     value="<?= (int)$t['id_tarea'] ?>">
+                                <input type="hidden" name="nuevo_estado" value="<?= htmlspecialchars($nuevo_estado) ?>">
+                                <button type="submit" class="btn-mover <?= $clase_btn ?>">
+                                    <?= htmlspecialchars($label) ?>
+                                </button>
+                            </form>
 
                             <?php endforeach; ?>
                         </div>
@@ -261,50 +282,4 @@ $hoy = date('Y-m-d');
     </div>
 </main>
 
-<!-- ── JS: fetch() al endpoint AJAX (Paso 10) ── -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    const notificacion = document.getElementById('notificacion');
-
-    function mostrarNotificacion(mensaje, tipo) {
-        notificacion.textContent = mensaje;
-        notificacion.className   = 'notificacion notificacion--' + tipo;
-        setTimeout(function () {
-            notificacion.className = 'notificacion oculto';
-        }, 3000);
-    }
-
-    document.querySelectorAll('.btn-mover').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var tareaId     = this.dataset.tareaId;
-            var nuevoEstado = this.dataset.nuevoEstado;
-
-            btn.disabled = true;
-
-            fetch('ajax/cambiar_estado.php', {
-                method:  'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body:    'id_tarea='     + encodeURIComponent(tareaId)
-                       + '&nuevo_estado=' + encodeURIComponent(nuevoEstado)
-            })
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                if (data.ok) {
-                    mostrarNotificacion(data.mensaje, 'exito');
-                    setTimeout(function () { location.reload(); }, 800);
-                } else {
-                    mostrarNotificacion(data.mensaje, 'error');
-                    btn.disabled = false;
-                }
-            })
-            .catch(function () {
-                mostrarNotificacion('Error de conexión', 'error');
-                btn.disabled = false;
-            });
-        });
-    });
-
-});
-</script>
 

@@ -9,7 +9,7 @@ class ConexionBD {
             "root",
             "",
             "control_tareas",
-            3307
+            3306
         );
 
 
