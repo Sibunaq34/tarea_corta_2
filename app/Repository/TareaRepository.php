@@ -23,6 +23,7 @@ class TareaRepository
         return $tareas;
     }
 
+
     public function crear($detalle, $prioridad, $fecha, $responsable)
     {
         $stmt = $this->db->prepare("CALL CrearTarea(?,?,?,?)");
@@ -31,18 +32,12 @@ class TareaRepository
         return $stmt->execute();
     }
 
+
     public function eliminar($id)
     {
         return $this->db->query("CALL EliminarTarea($id)");
     }
     
-public function cambiarEstado($idTarea, $nuevoEstado)
-{
-    $stmt = $this->db->prepare("CALL CambiarEstadoTarea(?, ?)");
-    $stmt->bind_param("is", $idTarea, $nuevoEstado);
-
-    return $stmt->execute();
-}
 
     public function obtener($id)
     {
@@ -77,6 +72,27 @@ public function cambiarEstado($idTarea, $nuevoEstado)
         $stmt->bind_param("i", $id);
 
         return $stmt->execute();
+    }
+
+
+    public function cambiarEstado($idTarea, $nuevoEstado)
+    {
+        $stmt = $this->db->prepare(
+            "CALL CambiarEstadoTarea(?, ?)"
+        );
+
+        $stmt->bind_param(
+            "is",
+            $idTarea,
+            $nuevoEstado
+        );
+
+
+        $resultado = $stmt->execute();
+
+        $stmt->close();
+
+        return $resultado;
     }
 }
 ?>

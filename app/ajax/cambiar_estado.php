@@ -2,14 +2,14 @@
 
 header('Content-Type: application/json');
 
-$id_tarea = (int)($_POST["tarea_id"] ?? 0);
+$id_tarea = (int)($_POST["id_tarea"] ?? 0);
 
 $nuevo_estado = trim(
     $_POST["nuevo_estado"] ?? ""
 );
 
 
-if($tarea_id <= 0 || $nuevo_estado=="")
+if($id_tarea <= 0 || $nuevo_estado=="")
 {
 
     echo json_encode(["ok"=>false, "codigo"=>-1, "mensaje"=>"Datos inválidos"]);
@@ -24,7 +24,7 @@ try{
     $service = new TareaService();
 
 
-    $codigo = $service->cambiarEstadoAjax( $tarea_id, $nuevo_estado);
+    $codigo = $service->cambiarEstadoAjax( $id_tarea, $nuevo_estado);
 
 
     $mensaje = match($codigo){

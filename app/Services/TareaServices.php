@@ -102,29 +102,15 @@ public function cambiarEstado($idTarea, $nuevoEstado)
     public function cambiarEstadoAjax($id_tarea, $nuevo_estado)
     {
 
-        $conexion = ConexionBD::conectar();
-
-
-        $stmt = $conexion->prepare(
-            "CALL CambiarEstadoTarea(?,?)"
-        );
-
-
-        $stmt->bind_param(
-            "is",
-            $id_tarea,
-            $nuevo_estado
-        );
-
-
         try {
 
-            $stmt->execute();
+            return $this->repo->cambiarEstado(
+                $id_tarea,
+                $nuevo_estado
+            ) ? 0 : -1;
 
-            return 0;
 
-
-        } catch(Exception $e){
+        } catch(mysqli_sql_exception $e){
 
 
             if(str_contains($e->getMessage(),"Transición"))
@@ -135,9 +121,15 @@ public function cambiarEstado($idTarea, $nuevoEstado)
 
             return -1;
 
+
+        } catch(Throwable $e){
+
+
+            return -1;
+
         }
 
-    }  
+    }
 }
 
 ?>
