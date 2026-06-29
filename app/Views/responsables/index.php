@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../Services/ResponsableServices.php';
-require_once __DIR__ . '/../Layaout/header.php';
+require_once __DIR__ . '/../layout/header.php';
 
 $service = new ResponsableServices();
 $registrosPorPagina = 10;
@@ -18,9 +18,29 @@ $responsables = $service->listar($registrosPorPagina, $offset);
 
 <h1>Responsables</h1>
 
-<a class="boton" href="crear.php">Crear responsable</a>
+<a href="/tarea_corta_2/app/Views/responsables/crear.php">
+    <button>Crear responsable</button>
+</a>
 
 <br><br>
+
+<?php if (isset($_GET["mensaje"])): ?>
+    <?php if ($_GET["mensaje"] == "creado"): ?>
+        <p style="color:green">Responsable creado correctamente</p>
+    <?php endif; ?>
+
+    <?php if ($_GET["mensaje"] == "editado"): ?>
+        <p style="color:green">Responsable actualizado correctamente</p>
+    <?php endif; ?>
+
+    <?php if ($_GET["mensaje"] == "eliminado"): ?>
+        <p style="color:green">Responsable eliminado correctamente</p>
+    <?php endif; ?>
+
+    <?php if ($_GET["mensaje"] == "error"): ?>
+        <p style="color:red">No se pudo completar la accion</p>
+    <?php endif; ?>
+<?php endif; ?>
 
 <div class="tabla-responsive">
 <table border="1" cellpadding="8">
@@ -39,11 +59,10 @@ $responsables = $service->listar($registrosPorPagina, $offset);
             <td><?php echo htmlspecialchars($responsable['apellidos']); ?></td>
             <td><?php echo htmlspecialchars($responsable['identificacion']); ?></td>
             <td class="acciones">
-                <a href="editar.php?id=<?php echo htmlspecialchars($responsable['id_responsable']); ?>">Editar</a>
+                <a href="/tarea_corta_2/app/Views/responsables/editar.php?id=<?php echo htmlspecialchars($responsable['id_responsable']); ?>">Editar</a>
                 |
-                <a href="../../Acciones/eliminarResponsable.php?id=<?php echo htmlspecialchars($responsable['id_responsable']); ?>"
-                   data-modal-eliminar
-                   data-mensaje="Seguro que desea eliminar este responsable?">
+                <a href="/tarea_corta_2/Acciones/eliminarResponsable.php?id=<?php echo htmlspecialchars($responsable['id_responsable']); ?>"
+                   onclick="return confirm('Desea eliminar este responsable?')">
                    Eliminar
                 </a>
             </td>
@@ -74,4 +93,4 @@ $responsables = $service->listar($registrosPorPagina, $offset);
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/../Layaout/footer.php'; ?>
+<?php require_once __DIR__ . '/../layout/footer.php'; ?>

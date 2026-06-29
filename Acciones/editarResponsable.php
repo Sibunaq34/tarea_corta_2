@@ -1,7 +1,6 @@
 <?php
 
-session_start();
-require_once __DIR__ . '/../Services/ResponsableServices.php';
+require_once __DIR__ . '/../app/Services/ResponsableServices.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? '';
@@ -11,13 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $service = new ResponsableServices();
     if ($service->editar($id, $nombre, $apellidos, $identificacion)) {
-        $_SESSION['mensaje'] = 'Responsable actualizado correctamente.';
-        $_SESSION['tipo_mensaje'] = 'exito';
+        header("Location: /tarea_corta_2/app/Views/responsables/index.php?mensaje=editado");
+        exit;
     } else {
-        $_SESSION['mensaje'] = 'No se pudo actualizar el responsable. Revise los datos.';
-        $_SESSION['tipo_mensaje'] = 'error';
+        header("Location: /tarea_corta_2/app/Views/responsables/editar.php?id=" . urlencode($id) . "&mensaje=error");
+        exit;
     }
 }
 
-header("Location: ../Views/responsables/index.php");
+header("Location: /tarea_corta_2/app/Views/responsables/index.php");
 exit;

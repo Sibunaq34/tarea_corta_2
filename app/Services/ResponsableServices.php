@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../Repository/ResponsableRepository.php';
+require_once __DIR__ . "/../Repository/ResponsableRepository.php";
+require_once __DIR__ . "/../Entidad/ResponsableEntidad.php";
 
 class ResponsableServices
 {

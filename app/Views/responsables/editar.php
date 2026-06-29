@@ -1,22 +1,26 @@
 <?php
 require_once __DIR__ . '/../../Services/ResponsableServices.php';
-require_once __DIR__ . '/../Layaout/header.php';
+require_once __DIR__ . '/../layout/header.php';
 
 $id = $_GET['id'] ?? '';
 $service = new ResponsableServices();
 $responsable = $service->buscarPorId($id);
 
 if (!$responsable) {
-    echo "<p>Responsable no encontrado.</p>";
-    echo '<a href="index.php">Volver</a>';
-    require_once __DIR__ . '/../Layaout/footer.php';
+    echo '<p style="color:#f39c12">Responsable no encontrado.</p>';
+    echo '<a href="/tarea_corta_2/app/Views/responsables/index.php">Volver</a>';
+    require_once __DIR__ . '/../layout/footer.php';
     exit;
 }
 ?>
 
 <h1>Editar responsable</h1>
 
-<form action="../../Acciones/editarResponsable.php" method="POST">
+<?php if (isset($_GET["mensaje"]) && $_GET["mensaje"] == "error"): ?>
+    <p style="color:red">Debe completar todos los datos del responsable</p>
+<?php endif; ?>
+
+<form action="/tarea_corta_2/Acciones/editarResponsable.php" method="POST">
     <input type="hidden" name="id" value="<?php echo htmlspecialchars($responsable['id_responsable']); ?>">
 
     <label>Nombre:</label><br>
@@ -33,6 +37,6 @@ if (!$responsable) {
 
 <br>
 
-<a href="index.php">Volver</a>
+<a href="/tarea_corta_2/app/Views/responsables/index.php">Volver</a>
 
-<?php require_once __DIR__ . '/../Layaout/footer.php'; ?>
+<?php require_once __DIR__ . '/../layout/footer.php'; ?>
