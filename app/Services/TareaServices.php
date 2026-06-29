@@ -56,6 +56,7 @@ class TareaService{
     
 
     public function editar($datos){
+
         if(empty($datos["detalle"]))
             {
                 die("El detalle es obligatorio");
@@ -69,10 +70,26 @@ class TareaService{
             $datos["responsable"]);
     }
     
+    
     public function reactivar($id)
     {
         return $this->repo->reactivar($id);
     }
+    public function cambiarEstadoAjax($id, $estado)
+    {
+
+    $estados = ["Pendiente", "En progreso", "Bloqueada", "Finalizada"];
+
+    if(!in_array($estado, $estados))
+    {
+
+        return -1;
+
+    }
+
+    return $this->repo->cambiarEstadoAjax($id, $estado);
+
+    }   
 }
 
 ?>

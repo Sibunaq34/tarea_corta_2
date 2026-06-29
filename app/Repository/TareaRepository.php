@@ -51,7 +51,6 @@ class TareaRepository{
     }
 
 
-
     public function obtener($id){
 
 
@@ -71,6 +70,7 @@ class TareaRepository{
 
     }
 
+
     public function obtenerResponsables(){
         $resultado = $this->db->query( "CALL ObtenerResponsables()");
         $responsables=[];
@@ -83,6 +83,7 @@ class TareaRepository{
         return $responsables;
     }
 
+
     public function reactivar($id)
     {
         $stmt = $this->db->prepare("CALL ReactivarTarea(?)");
@@ -92,6 +93,19 @@ class TareaRepository{
 
     }
 
+
+    public function cambiarEstadoAjax($id, $estado)
+    {
+
+        $stmt = $this->db->prepare("CALL sp_cambiar_estado_tarea(?, ?, @resultado)");
+        $stmt->bind_param("is", $id, $estado);
+        $stmt->execute();
+        $stmt->close();
+        $resultado = $this->db->query("SELECT @resultado AS resultado");
+        $fila = $resultado->fetch_assoc();
+        return (int)$fila["resultado"];
+
+    }
 }
 
 

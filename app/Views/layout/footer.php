@@ -2,7 +2,7 @@
 </div>
 
 <footer>
-    <p>Sistema de Gestión de Tareas.</p>
+    <p>© 2026 - ServiciosMedicos</p>
 </footer>
 
 </body>

@@ -1,7 +1,7 @@
 <?php
 // tablero.php — Vista Kanban principal con filtros (HU4 · Persona E)
 
-require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/app/Config/ConexionBD.php';
 
 // ── Paso 1: Leer filtros desde $_GET ──────────────────────────
 $filtro_estado       = trim($_GET['estado']        ?? '');
@@ -19,24 +19,23 @@ $p_fecha_limite = $filtro_fecha_limite ?: null;
 $tareas      = [];
 $error_tareas = '';
 try {
-    $pdo  = getDB();
-    $stmt = $pdo->prepare('CALL sp_obtener_tareas_tablero(?, ?, ?, ?)');
-    $stmt->execute([$p_estado, $p_prioridad, $p_responsable, $p_fecha_limite]);
-    $tareas = $stmt->fetchAll();
-    $stmt->closeCursor();
-} catch (Exception $e) {
-    $error_tareas = 'Error al cargar las tareas: ' . $e->getMessage();
-}
 
-// ── Paso 3: Responsables para el <select> de filtros (SP de Persona A) ──
-$responsables = [];
-try {
-    $pdo  = getDB();
-    $stmt = $pdo->query('CALL sp_obtener_responsables_select()');
-    $responsables = $stmt->fetchAll();
-    $stmt->closeCursor();
-} catch (Exception $e) {
-    // SP de Persona A aún no disponible; el filtro de responsable queda vacío
+
+    $conexion = ConexionBD::conectar();
+    $stmt = $conexion->prepare('CALL sp_obtener_tareas_tablero(?, ?, ?, ?)');
+
+    $stmt->bind_param("ssis", $p_estado, $p_prioridad, $p_responsable, $p_fecha_limite);
+
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $tareas = $resultado->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+}
+catch(Exception $e){
+
+    $error_tareas = 'Error al cargar las tareas: '.$e->getMessage();
+
 }
 
 // ── Paso 4: Agrupar tareas por estado ─────────────────────────
@@ -63,17 +62,11 @@ $transiciones = [
 
 $hoy = date('Y-m-d');
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero de Tareas — Control de Tareas</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
 
-<?php require_once __DIR__ . '/includes/header.php'; ?>
+    
+<?php require __DIR__ . "/app/Views/layout/header.php"; ?>
+
+
 
 <main class="contenedor">
 
@@ -240,9 +233,11 @@ $hoy = date('Y-m-d');
                             ?>
                             <button type="button"
                                     class="btn-mover <?= $clase_btn ?>"
-                                    data-tarea-id="<?= (int)$t['id'] ?>"
+                                    data-tarea-id="<?= (int)$t['id_tarea'] ?>"
                                     data-nuevo-estado="<?= htmlspecialchars($nuevo_estado) ?>">
+
                                 <?= htmlspecialchars($label) ?>
+
                             </button>
                             <?php endforeach; ?>
                         </div>
@@ -308,5 +303,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-</body>
-</html>
