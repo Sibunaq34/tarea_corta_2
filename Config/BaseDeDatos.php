@@ -3,7 +3,7 @@
 class Database
 {
     private $host = "localhost";
-    private $db = "nombre_bd";
+    private $db = "control_tareas";
     private $user = "root";
     private $password = "";
 
@@ -12,26 +12,21 @@ class Database
         try {
 
             $conexion = new PDO(
-                "mysql:host={$this->host};dbname={$this->db};charset=utf8",
+                "mysql:host={$this->host};port=3307;dbname={$this->db};charset=utf8",
                 $this->user,
                 $this->password
             );
-
 
             $conexion->setAttribute(
                 PDO::ATTR_ERRMODE,
                 PDO::ERRMODE_EXCEPTION
             );
 
-
             return $conexion;
-
 
         } catch(PDOException $e){
 
-            die(
-                "Error de conexión: " . $e->getMessage()
-            );
+            die("Error de conexión: " . $e->getMessage());
         }
     }
 }
