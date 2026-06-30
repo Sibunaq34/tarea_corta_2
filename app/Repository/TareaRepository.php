@@ -44,7 +44,16 @@ class TareaRepository
     {
         $resultado = $this->db->query("CALL ObtenerTareaPorId($id)");
 
-        return $resultado->fetch_assoc();
+        $tarea = $resultado->fetch_assoc();
+        $resultado->free();
+
+        while ($this->db->more_results() && $this->db->next_result()) {
+            if ($extra = $this->db->store_result()) {
+                $extra->free();
+            }
+        }
+
+        return $tarea;
     }
 
     public function editar($id, $detalle, $prioridad, $fecha, $responsable)

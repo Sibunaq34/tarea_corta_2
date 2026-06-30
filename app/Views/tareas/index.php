@@ -1,4 +1,38 @@
-<?php require_once __DIR__ . "/../../Services/TareaServices.php"; $service = new TareaService(); $tareas = $service->obtenerTareas();?>
+<?php
+require_once __DIR__ . "/../../Services/TareaServices.php";
+
+$service = new TareaService();
+$tareas = $service->obtenerTareas();
+
+usort($tareas, function($a, $b) {
+    $aFinalizada = ($a["estado"] ?? "") === "Finalizada";
+    $bFinalizada = ($b["estado"] ?? "") === "Finalizada";
+
+    return $aFinalizada <=> $bFinalizada;
+});
+
+function cambiosPermitidosPorEstado($estado)
+{
+    $cambios = [
+        "Pendiente" => [
+            "En progreso" => "En progreso"
+        ],
+        "En progreso" => [
+            "Pendiente" => "Pendiente",
+            "Bloqueada" => "Bloqueada",
+            "Finalizada" => "Finalizada"
+        ],
+        "Bloqueada" => [
+            "En progreso" => "En progreso"
+        ],
+        "Finalizada" => [
+            "En progreso" => "Reactivar"
+        ]
+    ];
+
+    return $cambios[$estado] ?? [];
+}
+?>
 <?php require __DIR__ . "/../layout/header.php"; ?>
 
 
@@ -95,25 +129,13 @@
                 <a href="/tarea_corta_2/app/Views/tareas/editar.php?id=<?=$t['id_tarea']?>"> Editar </a>
                 <br>
 
-                <?php if($t["estado"]=="Finalizada"): ?>
-                    <form  action="/tarea_corta_2/acciones/reactivar.php" method="POST">
-                        <input type="hidden"name="id" value="<?=$t['id_tarea']?>">
-                        <button>Reactivar</button>
+                <?php foreach(cambiosPermitidosPorEstado($t["estado"]) as $nuevoEstado => $textoBoton): ?>
+                    <form action="/tarea_corta_2/acciones/estado.php" method="POST" >
+                        <input  type="hidden" name="id" value="<?=$t['id_tarea']?>">
+                        <input  type="hidden" name="estado" value="<?=$nuevoEstado?>">
+                        <button><?=$textoBoton?></button>
                     </form>
-                <?php endif; ?>
-                
-                <?php if($t["estado"]!="Finalizada"): ?>
-                <form action="/tarea_corta_2/acciones/estado.php" method="POST" >
-                    <input  type="hidden" name="id" value="<?=$t['id_tarea']?>">
-                    <select name="estado">
-                        <option value="Pendiente"> Pendiente </option>
-                        <option value="En progreso"> En progreso </option>
-                        <option value="Bloqueada"> Bloqueada </option>
-                        <option value="Finalizada"> Finalizada </option>
-                    </select>
-                    <button> Cambiar estado</button>
-                </form>
-                <?php endif; ?>
+                <?php endforeach; ?>
 
 
             </td>

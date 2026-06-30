@@ -4,8 +4,8 @@
 $service = new TareaService();
 try
 {
-    $service->reactivar( $_POST["id"]);
-    header("Location:/tarea_corta_2/app/Views/tareas/index.php?=estado");
+    $service->cambiarEstado($_POST["id"], "En progreso");
+    header("Location:/tarea_corta_2/app/Views/tareas/index.php?mensaje=estado");
     exit;
     }
 catch(Exception $e){
