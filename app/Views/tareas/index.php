@@ -98,7 +98,7 @@ function cambiosPermitidosPorEstado($estado)
 <table border="1">
 
     <tr>
-        <th>Detalle</th><th>Prioridad</th><th>Responsable</th><th>Estado</th><th>Acciones</th>
+        <th>Detalle</th><th>Prioridad</th><th>Responsable</th><th>Grupo</th><th>Estado</th><th>Acciones</th>
     </tr>
 
 
@@ -118,6 +118,8 @@ function cambiosPermitidosPorEstado($estado)
                 <?=$t["prioridad"]?>
             </td>
             <td><?=$t["responsable"] ?? "Sin responsable asignado"?>
+            </td>
+            <td><?=$t["grupo_nombre"] ?? "Sin grupo"?>
             </td>
             <td>
                 <?=$t["estado"]?>

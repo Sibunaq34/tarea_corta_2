@@ -25,10 +25,10 @@ class TareaRepository
     }
 
 
-    public function crear($detalle, $prioridad, $fecha, $responsable)
+    public function crear($detalle, $prioridad, $fecha, $responsable, $grupo)
     {
-        $stmt = $this->db->prepare("CALL CrearTarea(?,?,?,?)");
-        $stmt->bind_param("sssi", $detalle, $prioridad, $fecha, $responsable);
+        $stmt = $this->db->prepare("CALL CrearTarea(?,?,?,?,?)");
+        $stmt->bind_param("sssii", $detalle, $prioridad, $fecha, $responsable, $grupo);
 
         return $stmt->execute();
     }
@@ -56,10 +56,10 @@ class TareaRepository
         return $tarea;
     }
 
-    public function editar($id, $detalle, $prioridad, $fecha, $responsable)
+    public function editar($id, $detalle, $prioridad, $fecha, $responsable, $grupo)
     {
-        $stmt = $this->db->prepare("CALL EditarTarea(?,?,?,?,?)");
-        $stmt->bind_param("isssi", $id, $detalle, $prioridad, $fecha, $responsable);
+        $stmt = $this->db->prepare("CALL EditarTarea(?,?,?,?,?,?)");
+        $stmt->bind_param("isssii", $id, $detalle, $prioridad, $fecha, $responsable, $grupo);
 
         return $stmt->execute();
     }
