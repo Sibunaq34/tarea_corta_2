@@ -30,7 +30,7 @@ class TareaService{
         }
 
         return $this->repo->crear($datos["detalle"],$datos["prioridad"],$datos["fecha"],
-        $datos["responsable"]);
+        $datos["responsable"],$datos["grupo"] ?? 0);
 
     }
 
@@ -89,7 +89,8 @@ public function cambiarEstado($idTarea, $nuevoEstado)
             $datos["detalle"],
             $datos["prioridad"],
             $datos["fecha"],
-            $datos["responsable"]);
+            $datos["responsable"],
+            $datos["grupo"] ?? 0);
     }
     
 

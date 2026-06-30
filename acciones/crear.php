@@ -6,7 +6,8 @@ $datos=[
     "detalle"=>$_POST["detalle"],
     "prioridad"=>$_POST["prioridad"],
     "fecha"=>$_POST["fecha"],
-    "responsable"=>$_POST["responsable"]
+    "responsable"=>$_POST["responsable"],
+    "grupo"=>$_POST["grupo"] ?? 0
 ];
 
 

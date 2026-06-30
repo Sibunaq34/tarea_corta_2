@@ -1,3 +1,9 @@
+<?php
+require_once __DIR__ . "/../../Services/GrupoServices.php";
+
+$grupoService = new GrupoService();
+$grupos = $grupoService->obtenerGrupos();
+?>
 <?php require __DIR__ . "/../layout/header.php"; ?>
 
 <h1>Crear tarea</h1>
@@ -29,6 +35,18 @@
         <?php require_once __DIR__ . "/../../Repository/TareaRepository.php"; $repo = new TareaRepository(); $responsables = $repo->obtenerResponsables(); foreach($responsables as $r): ?>
             <option value="<?=$r['id_responsable']?>">
                 <?=$r['nombre_completo']?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
+    <br><br>
+
+    <label>Grupo</label>
+    <select name="grupo">
+        <option value="0">Sin grupo</option>
+        <?php foreach($grupos as $grupo): ?>
+            <option value="<?=$grupo['id_grupo']?>">
+                <?=$grupo['nombre']?>
             </option>
         <?php endforeach; ?>
     </select>

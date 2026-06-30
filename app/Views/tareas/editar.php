@@ -1,4 +1,12 @@
-<?php require_once __DIR__ . "/../../Services/TareaServices.php"; $service = new TareaService(); $tarea = $service->obtener($_GET["id"]); ?>
+<?php
+require_once __DIR__ . "/../../Services/TareaServices.php";
+require_once __DIR__ . "/../../Services/GrupoServices.php";
+
+$service = new TareaService();
+$grupoService = new GrupoService();
+$tarea = $service->obtener($_GET["id"]);
+$grupos = $grupoService->obtenerGrupos();
+?>
 <?php require __DIR__ . "/../layout/header.php"; ?>
 
 
@@ -44,6 +52,22 @@
     
     
     <br><br>
+
+    <label>Grupo</label>
+    <select name="grupo">
+        <option value="0">Sin grupo</option>
+        <?php foreach($grupos as $grupo): ?>
+            <option
+                value="<?=$grupo['id_grupo']?>"
+                <?= ($tarea["id_grupo"] ?? 0) == $grupo["id_grupo"] ? "selected" : "" ?>
+            >
+                <?=$grupo['nombre']?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
+    <br><br>
+
     <button>Guardar cambios</button>
 
 </form>
