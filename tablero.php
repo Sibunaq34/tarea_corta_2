@@ -65,7 +65,6 @@ foreach ($tareas as $tarea) {
     }
 }
 
-// Transiciones válidas por estado (sección 9 del CLAUDE.md)
 $transiciones = [
     'Pendiente'   => ['En progreso'],
     'En progreso' => ['Pendiente', 'Bloqueada', 'Finalizada'],
@@ -160,7 +159,7 @@ $hoy = date('Y-m-d');
     </div>
     <?php endif; ?>
 
-    <!-- ── Tablero Kanban (Paso 7 → 8) ── -->
+    <!-- ── Tablero Kanban  ── -->
     <div class="kanban-tablero">
 
         <?php foreach ($columnas as $estado => $tarjetas): ?>
@@ -244,7 +243,7 @@ $hoy = date('Y-m-d');
 
                         </div>
 
-                        <!-- Botones de transición válidos (sección 9 CLAUDE.md) -->
+                        <!-- Botones de transición válidos -->
                         <?php if (!empty($botones)): ?>
                         <div class="tarjeta-acciones">
                             <?php foreach ($botones as $nuevo_estado): ?>
